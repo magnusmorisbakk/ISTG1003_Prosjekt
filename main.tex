@@ -1,0 +1,129 @@
+\documentclass[]{article}
+
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+
+\hypersetup{
+  pdftitle={ISTG1003 prosjekt: Tittel (gi projektet en informativ tittel)},
+  pdfauthor={Emma Nordli, Magnus Kåsa Morisbakk, Patrick Alund},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={black},
+  citecolor={black},
+  urlcolor={blue},
+  pdfcreator={LaTeX via pandoc}
+}
+
+% --- NY KOMMANDO FOR FORSIDEN ---
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+
+% ==========================================
+% NYTT: BIBLATEX CONFIGURATION FOR ISTG1003
+% ==========================================
+\usepackage[norsk]{babel} % Sikrer at dokumentet forstår norsk språk
+\usepackage{csquotes}     % Hjelper biblatex med korrekte sitattegn på norsk
+\usepackage[backend=biber, style=apa, langid=norsk]{biblatex}
+\addbibresource{references.bib} % Sørg for at filen din heter nøyaktig references.bib
+% ==========================================
+
+\begin{document}
+
+% Henter inn den nye forsiden din
+\input{title.tex}
+\newpage
+
+% --- INNHOLDSFORTEGNELSE ---
+\tableofcontents
+\newpage
+
+Rapporten gir maks 50 poeng. Fordeling av poengene vises for hver del.
+Hver del blir vurdert etter
+
+\begin{itemize}
+\tightlist
+\item
+  faglig nivå
+\item
+  korrekthet
+\item
+  presentasjon og lesbarhet
+\end{itemize}
+
+% Her henter vi inn alle underfilene
+\input{Sections/1. Sammendrag.tex}
+\input{Sections/2. Introduksjon.tex}
+\input{Sections/3. Beskrivende dataanalyse.tex}
+\input{Sections/4. Metoder.tex}
+\input{Sections/5. Resultater.tex}
+\input{Sections/6. Diskusjon og konklusjon.tex}
+
+\newpage
+\input{Sections/7. KI-Deklarasjon.tex}
+
+\newpage
+% --- OPPDATERT: SEKSJON FOR REFERANSER ---
+% Siden du har en underfil som heter "8. Referanser og kode.tex", henter vi den inn først.
+\input{Sections/8. Referanser og kode.tex}
+
+% Dette genererer selve litteraturlisten automatisk rett under innholdet i filen over:
+\printbibliography[heading=none] 
+
+\end{document}
