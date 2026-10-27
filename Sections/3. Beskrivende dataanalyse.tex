@@ -1,19 +1,28 @@
 \section{Beskrivende dataanalyse (5 poeng)}\label{beskrivende-dataanalyse-5-poeng}
-Datasettet inneholder totalt data for 891 passasjerer. Blant disse passasjerene, lå gjennomsnittsalderen på 29.36år, med et spenn fra 0.42 år til 80 år. Av alle passasjerene, så overlevde rundt 38\%. Gjennomsnittlig billettpris lå på 32.2, med et standardavvik på 49.7, hvor den dyreste billeten var registrert 512.33. Variabelen alder mangler for en del av passasjerene (177 stk). Grunnet dette, så har medianalderen (28 år), blitt satt inn for å fylle de tomme verdiene (evt fjerne de som mangler alder?). Kjønn har blitt kodet slik at den kan tolkes numerisk (mann = 0 og kvinne = 1), og søsken/ektefell og foreldre/barn har blitt slått sammen i en felles variabel for å regne ut familiestørrelse.
+Datasettet inneholder total 891 rader. En gjennomgang av dette settet, viser at gjennomsnittsalderen lå på 29,7 år, mens medianen lå på 28 år. Alderspennet varierte fra så lavt som 0,42 år til eldre på 80år. Totalt sett, så var det kun 38\% av de som var registrert ombord som overlevde.
+
+Før vi satt i gang med modelleringen, så har vi utført enkel databehandling av enkelte variabler for å gjøre disse enklere og mulig å behandler. Variablene `SibSp` (Antall barn + ektefeller en enkeltperson hadde ombord) og `Parch` (Antall barn + foreldre en enkeltperson hadde ombord) har blitt slått sammen for å gi en samlet familiestørrelse (`FamilySize`). Variabelen `sex` vi konvertert til numeriske verdier hvor menn har fått verdien 0 og kvinner har fått verdien 1.
 
 \noindent
 \begin{minipage}[c]{0.48\textwidth}
     \textbf{Korrelasjonsmatrise}
 
-    Korrelasjonsmatrisen, vises det at det er en sterkere negativ korrelasjon på -0.55 mellom variablene Fare og Pclass, noe som er forventet. Lavere klasse (1. klasse), betyr en høyere billettpris. Overlevelsesvariabelen har høyest positiv korrelasjon med kjønn (0.54) og lavest korrelasjon (-0.34) med Pclass.
+    Korrelasjonsmatrisen viser en negativ korrelasjon på
+    $-0.55$ mellom variablene \texttt{Fare} og \texttt{Pclass}.
+    Dette er som forventet, da lavere klassenummer, som
+    første klasse, er forbundet med høyere billettpriser.
+    Variabelen \texttt{Survived} har den høyeste positive
+    korrelasjonen med kjønn, på $0.54$, og den sterkeste
+    negative korrelasjonen med \texttt{Pclass}, på $-0.34$.
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.48\textwidth}
     \centering
-    \includegraphics[width=\linewidth]
+    \includegraphics[width=0.85\linewidth]
     {Images/Korrelasjonsmatrise.png}
 \end{minipage}
 
+\par\medskip
 
 \noindent
 \begin{minipage}[c]{0.48\textwidth}
@@ -27,20 +36,50 @@ Datasettet inneholder totalt data for 891 passasjerer. Blant disse passasjerene,
 \hfill
 \begin{minipage}[c]{0.48\textwidth}
     \centering
-    \includegraphics[width=\linewidth]
+    \includegraphics[width=0.85\linewidth]
     {Images/histogram_aldersfordeling.png}
 \end{minipage}
 
+\par\medskip
+
 \noindent
 \begin{minipage}[c]{0.48\textwidth}
-    \textbf{Boksplott – aldersfordeling overlevende og døde}
+    \textbf{Boksplott – aldersfordeling for overlevende
+    og omkomne}
 
-    Boksplottet viser at medianalderen er svært lik for både overlevende og omkomne. Plottet viser også at det var en del uteliggere i from av både eldre og yngre passasjerer som overlevde. Dette kan støtte "barn først" prinsippet under evakuering.
+    Boksplottet viser at medianalderen er relativt lik
+    for både overlevende og omkomne. Plottet viser også
+    uteliggere blant både yngre og eldre passasjerer.
+    Dette kan tyde på at alder hadde betydning for
+    overlevelsen, og kan være forenlig med prinsippet
+    om kvinner og barn først under evakueringen.
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.48\textwidth}
     \centering
-    \includegraphics[width=\linewidth]
+    \includegraphics[width=0.85\linewidth]
     {Images/boksplott_aldersfordeling_overlevende_og_dode.png}
 \end{minipage}
+
+\par\medskip
+
+\noindent
+\begin{minipage}[c]{0.48\textwidth}
+    \textbf{Stolpediagram – overlevelse fordelt på kjønn}
+
+    Stolpediagrammet viser fordelingen av overlevelse
+    basert på kjønn. Det kommer tydelig frem at
+    flertallet av mennene omkom, mens en større andel
+    av kvinnene overlevde. Dette er forenlig med
+    prinsippet om kvinner og barn først under
+    evakueringen.
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.85\linewidth]
+    {Images/overlevende_menn_vs_kvinner.png}
+\end{minipage}
+
+
 

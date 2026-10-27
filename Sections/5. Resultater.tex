@@ -1,4 +1,62 @@
 \section{Resultater (10 poeng)}\label{resultater-10-poeng}
+\subsection{1. Multippel lineær regresjon}
+
+\begin{center}
+  \begin{tabular}{|l|r|r|r|r|r|r|}
+    \hline
+    & coef & \textbf{std err} & \textbf{t} & \textbf{$P>|t|$} & \textbf{[0.025} & \textbf{0.975]} \\
+    \hline
+    \textbf{Intercept} & 47.604 & 1.478 & 32.199 & 0.000 & 44.702 & 50.508 \\
+    \textbf{Pclass} & -6.379 & 0.579 & -11.016 & 0.000 & -7.517 & -5.243 \\
+    \textbf{SibSp} & -3.912 & 0.557 & -7.020 & 0.000 & -5.006 & -2.812 \\
+    \textbf{Parch} & -0.9576 & 0.622 & -1.538 & 0.124 & -2.180 & 0.264 \\
+    \textbf{Sex\_} & -3.332 & 1.037 & -3.212 & 0.001 & -5.369 & -1.296 \\
+    \hline
+  \end{tabular}
+\end{center}
+
+
+(Forklaringsgrad) Modellen har em justert $R^2$ på 0.230. Dette betyr at forklaringsvariablene samlet forklarer 23\% av variasjonen i alder hos passasjerene.
+
+Intercept = 47,6. Den forventede alderen er 47,6 når alle forklaringsvariablene har verdien 0.
+
+Passasjerklasse (Pclass) har en verdi på -6.38. For hver klasseøkning minsker den forventede alderen i snitt med 6.38 år. Passasjerer i høyere klasser (lavere klassenummer) var i snitt mye yngre. $P > |t| = 0.000$, anses som statistisk signifikant.
+
+Søsken/ektefelle (Sibsp) har en verdi på -3.91. For hvert søsken eller ektefelle passasjeren reiste med, reduserte den forventede alderen med 3.91 år. $P > |t| = 0.000$, anses som statistisk signifikant.
+
+Foreldre/barn (Parch) har $P > |t| = 0.124$, grunnet dette anses antall foreldre/batn som ikke statistisk signifikant. Vi kan ikke si at (Parch) har en uavhengig effekt på alder.
+
+Kjønn (Sex\_) har en verdi på -3.33. Kvinner var i snitt 3.33 år yngre enn menn. $P > |t| = 0.001$, anses som statistisk signifikant.
+
+\noindent
+\begin{minipage}[c]{0.48\textwidth}
+    \textbf{Residualplott}
+
+        
+
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.89\linewidth]
+    {Images/linear_scatterplot.png}
+\end{minipage}
+
+\noindent
+\begin{minipage}[c]{0.48\textwidth}
+    \textbf{QQplott}
+
+
+
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.89\linewidth]
+    {Images/linear_qqplot.png}
+\end{minipage}
+
+
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
