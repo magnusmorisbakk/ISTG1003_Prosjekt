@@ -1,16 +1,23 @@
 \section{Metoder (10 poeng)}\label{metoder-10-poeng}
 
 \subsection{1. Multippel lineær regresjon} 
-For å analysere sammenhengen mellom alder og forklaringsvariablene, så har vi benyttet multippel lineær regresjon estimer med OLS. \\
-$$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \dots + \beta_p x_{pi} + e_i$$
+For å løse den første delen av problemstilling, estimering av manglende aldersdata hos enkelte rader, benytter vi multippel lineær regresjon og estimering med OLS. Ettersom at alder er en kontinuerlig variabel, så er lineær regresjon en egnet metode for å undersøke sammenhengen mellom alder og forklaringsvariablene.
+
+% $$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \dots + \beta_p x_{pi} + e_i$$
 
 \paragraph{Validering} \mbox{} \\
-For å vurdere gyldigheten av modellen og undersøke om forutsetningene for OLS estimeringen var på plass gjennomfører vi grafiske residualanalyser. 
-
-Linearitet: Vi undersøker om residualene har en jevn spredning ved å plotte dem mot modellens predikerte verdier (scatterplott)
-
-Normalfordeling: Vi benytter et QQ plott for å sjekke om feile i modellen følger en normalfordeling.
+Determinasjonskoeffisient (justert $R^2$) benyttes for å si hvor stor andel av variansen i alder som kan forklares av de valgte prediktorene. \\
+HKoeffisienten til hver prediktor evalueres mot et signifikansnivå på 0.05 for å avgjøre om sammenhengen mellom prediktoren og alder er statistisk signifikant. \\
+To grafiske analyser utføres for å validere at forutsetningene til OLS er oppfylt:
+\begin{itemize}
+    \item Scatterplot: Undersøke om sammenhengen er lineær.
+    \item Q-Q-plott: Undersøke om residualene er normalfordelte.
+\end{itemize}
 
 \subsection{2. Klassifisering}
 
-Fjerning av rader som har manglende data, eller innføring av median alder der alder manglet, kan potensielt forårsake skjevheter i datasettet som modellene evalueres etter.
+\paragraph{Begrensninger ved metodene}
+\begin{itemize}
+    \item Fjerning av rader som har manglende data, kan potensielt forårsake skjevheter i datasettet som modellene evalueres etter.
+    \item Ettersom at OLS er uavgrenset, så kan det forekomme negative aldersverdier dersom en passasjer har en kombinasjon av flere prediktorer (eks. høyt antall pårørende).
+\end{itemize}
