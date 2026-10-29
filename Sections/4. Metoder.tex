@@ -1,13 +1,18 @@
 \section{Metoder (10 poeng)}\label{metoder-10-poeng}
 
 \subsection{1. Multippel lineær regresjon} 
-For å løse den første delen av problemstilling, estimering av manglende aldersdata hos enkelte rader, benytter vi multippel lineær regresjon og estimering med OLS. Ettersom at alder er en kontinuerlig variabel, så er lineær regresjon en egnet metode for å undersøke sammenhengen mellom alder og forklaringsvariablene.
+For å løse den første delen av problemstilling, estimering av manglende aldersdata hos enkelte rader, benytter vi multippel lineær regresjon og estimering med OLS. Ettersom at alder er en kontinuerlig variabel, så er multippel lineær regresjon med OLS en egnet metode. Dette lar oss undersøke den lineære sammenhengen mellom alder og forklaringsvariablene, slik at vi kan predikere alder. % fordi?
 
-% $$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \dots + \beta_p x_{pi} + e_i$$
+$$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \dots + \beta_p x_{pi} + e_i$$
 
 \paragraph{Validering} \mbox{} \\
+\begin{itemize}
+    \item Justert determinasjonskoeffisient ($R^2$) benyttes for å evaluere hvor stor andel av variansen som forklares av modellen.
+    \item Koeffisientene evalueres mot et signifikansnivå på $\alpha = 0.05$.
+    \item Forutsetningene for OLS undersøkes ved grafiske modeller, et residualplott for å sjekke spredningen forholdet mellom varialene, og et Q-Q-plott for å sjekke om residualene er tilnærmet normalfordelte.
+\end{itemize}
 Determinasjonskoeffisient (justert $R^2$) benyttes for å si hvor stor andel av variansen i alder som kan forklares av de valgte prediktorene. \\
-HKoeffisienten til hver prediktor evalueres mot et signifikansnivå på 0.05 for å avgjøre om sammenhengen mellom prediktoren og alder er statistisk signifikant. \\
+H Koeffisienten til hver prediktor evalueres mot et signifikansnivå på 0.05 for å avgjøre om sammenhengen mellom prediktoren og alder er statistisk signifikant. \\
 To grafiske analyser utføres for å validere at forutsetningene til OLS er oppfylt:
 \begin{itemize}
     \item Scatterplot: Undersøke om sammenhengen er lineær.
@@ -19,5 +24,6 @@ To grafiske analyser utføres for å validere at forutsetningene til OLS er oppf
 \paragraph{Begrensninger ved metodene}
 \begin{itemize}
     \item Fjerning av rader som har manglende data, kan potensielt forårsake skjevheter i datasettet som modellene evalueres etter.
-    \item Ettersom at OLS er uavgrenset, så kan det forekomme negative aldersverdier dersom en passasjer har en kombinasjon av flere prediktorer (eks. høyt antall pårørende).
+    \item OLS har ingen øvre eller nedre grense for predikerte verdier. Grunnet dette så kan det forekomme aldersverdier som ikke er mulige, som negativ alder dersom en passasjer har en kombinasjon av flere prediktorer (eks. høyt antall pårørende).
+    \item En betydelig svakhet ligger i hvordan datasettet er strukturert. Variabelen \textit{Parch} slår sammen passasjerer som reiser med foreldre og barn. En passasjer som reiser med foreldre er som regel er et barn, noe som kan forvente å trekke ned alder. På den andre siden kan en person som reiser med barn forventes å ha en høyere alder. Variabelen øker med to motstridende aldersgrupper, noe som gjør at de kan utligne hverandre i modeller. På lignende vis skiller ikke \textit{SibSp} mellom ektefeller og søsken. Manglende skille kan gjøre at variabelen kan representere helt ulike aldersgrupper.
 \end{itemize}
