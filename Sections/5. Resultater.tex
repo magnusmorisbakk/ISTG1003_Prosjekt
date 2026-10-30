@@ -1,21 +1,59 @@
 \section{Resultater (10 poeng)}\label{resultater-10-poeng}
+\subsection{1. Multippel lineær regresjon}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  Presenter resultatene på en tydelig og strukturert måte. Dette kan for
-  eksempel gjøres ved hjelp av tabeller, grafer eller andre
-  visualiseringer som gjør funnene lettere å forstå.
-\item
-  Tolk resultatene. Tolkningen bør tilpasses regresjons-,
-  klassifiserings- eller klyngeanalyse-oppgaven du har valgt.
-\item
-  Diskuter begrensninger og forbehold som er viktige å ta hensyn til når
-  resultatene skal tolkes. Dette kan for eksempel være begrensninger ved
-  datasettet, modellene eller evalueringsmetodene.
-\item
-  (Valgfritt) Se på mulige videre analyser. Beskriv eventuelt
-  alternative eller forbedrede metoder som kunne vært brukt for å
-  analysere dataene i fremtiden, og hvordan disse potensielt kunne gitt
-  ytterligere innsikt.
-\end{enumerate}
+\begin{table}[htbp]
+    \centering
+    \caption{Resultater fra multippel lineær regresjonsmodell for aldersestimering.}
+    \label{tab:regresjon_alder}
+    \begin{tabular}{lcccccc}
+        \hline
+        \textbf{Variabel} & \textbf{coef} & \textbf{std err} & \textbf{t} & \textbf{$p$-verdi} & \textbf{[0.025} & \textbf{0.975]} \\
+        \hline
+        \textbf{Intercept} & 47,604 & 1,478 & 32,199 & 0,000 & 44,702 & 50,508 \\
+        \textbf{Pclass}    & -6,379 & 0,579 & -11,016 & 0,000 & -7,517 & -5,243 \\
+        \textbf{SibSp}     & -3,912 & 0,557 & -7,020 & 0,000 & -5,006 & -2,812 \\
+        \textbf{Parch}     & -0,958 & 0,622 & -1,538 & 0,124 & -2,180 & 0,264 \\
+        \textbf{Sex\_}     & -3,332 & 1,037 & -3,212 & 0,001 & -5,369 & -1,296 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Konstantleddet til modellen ($\beta_0=47.6$) representerer forventningsverdien for en mann, uten påvirkning fra de andre prediktorene. Variabelen \textit{Pclass} ($\beta_1 = -6.38, p < 0.000$) står statistisk signifikant. For hver lavere klasse en passasjer tilhørte (eks. klasse 1. til klasse 2.), reduserer den forventede alderen i snitt med 6.38 år. \textit{Sex\_} ($\beta_4 = -3.33, p = 0.001$) står også statistisk signifikant og viser at kvinner i snitt er 3.33 år yngre enn menn. \textit{SibSp} ($\beta_2 = -3.91, p < 0.000$) står statistisk signifikant og viser at hvert søsken/ektefelle en passasjer hadde ombord, reduserte den forventede alderen med 3.91 år. \textit{Parch} ($\beta_3 = -0.95, p = 0.124$) er ikke statistisk signifikant med et 5\% signifikansnivå. Dette kan som nevnt i metodekapitellet, skyldes at variabelen inneholder foreldre som trekker alder opp og barn som trekker barn ned. Dette betyr at vi har tilstrekkelig med bevis for at antall foreldre eller barn en passasjer hadde om bord har en reell effekt på alderen. 
+
+Samlet utgjør modellen justert determinasjonskoeffisient på $R^2 = 0.23$, hvilket som betyr at den forklarer 23\% av variansen i alderen til passasjerene. 
+
+
+\noindent
+\begin{minipage}[c]{0.48\textwidth}
+    \textbf{Residualplott}
+    
+    Figuren har en antydning til  vifteform. Resultatene er samlet noe tettere rundt nulllinjen i starten, men sprer seg mer desto lenger ut til høyre. Dette er kjent som heteroskedastisitet, modellen har større usikkerhet for eldre passasjerer.
+
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.89\linewidth]
+    {Images/linear_scatterplot.png}
+    \captionof{figure}{Residualer mot predikert alder}
+    \label{fig:linear_scatterplot.png}
+\end{minipage}
+
+\noindent
+\begin{minipage}[c]{0.48\textwidth}
+    \textbf{QQplott}
+    
+        Punktene i figuren følger i stor grad linjen, noe som antyder at feileddene i hovedsak er tilnærmet normalfordelte.
+        Punktene har noe positiv skjevhet i høyre hale, da enkeltene av punktene i den øvre delen legger seg litt ovenfor linjen. Skjevheten her skyldes at det finnes eldre passasjerer i datasettet som har en høyere rell alder enn det modellen predikerer.
+
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.89\linewidth]
+    {Images/linear_qqplot.png}
+    \captionof{figure}{Residualene fra aldersmodellen}
+    \label{fig:linear_qqplot}
+\end{minipage}
+
+\subsection{2. Klassifisering}

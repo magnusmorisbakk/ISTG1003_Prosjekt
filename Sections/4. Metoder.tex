@@ -1,26 +1,29 @@
 \section{Metoder (10 poeng)}\label{metoder-10-poeng}
 
+\subsection{1. Multippel lineær regresjon} 
+For å løse den første delen av problemstilling, estimering av manglende aldersdata hos enkelte rader, benytter vi multippel lineær regresjon og estimering med OLS. Ettersom at alder er en kontinuerlig variabel, så er multippel lineær regresjon med OLS en egnet metode. Dette lar oss undersøke den lineære sammenhengen mellom alder og forklaringsvariablene, slik at vi kan predikere alder. % fordi?
+
+$$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \dots + \beta_p x_{pi} + e_i$$
+
+\paragraph{Validering} \mbox{} \\
 \begin{itemize}
-\item
-  Beskriv metodene dere bruker i prosjektet, og forklar i detalj hvordan
-  dere har anvendt dem. Dere bør bruke metoder fra minst 2 av de 3
-  temaene i kurset (regresjon, klassifikasjon, klyngeanalyse).
-\item
-  Forklar kort hvorfor metodene passer for datasett og problemstillingen
-  dere har valgt.
-\item
-  \textbf{Det er viktig at dere bare bruker metoder som er tilpasset
-  nivået i dette kurset -- bruk bare metoder dere lærer om her. Hold det
-  enkelt og realistisk, ikke bruk komplekse metoder som dere ikke
-  forstår, bare fordi KI foreslår det.}
-\item
-  Beskriv hvordan dere evaluerer metodene, hvis det er mulig. Evaluer
-  modellen(e) ved å bruke passende verktøy, for eksempel residualanalyse
-  eller vurdering av prediksjonsytelse (som sensitivitet og spesifisitet
-  i en binær klassifiseringsoppgave).
-\item
-  (Valgfritt) Diskuter mulige begrensninger ved metodene og de valgte
-  evalueringsmålene. Vurder for eksempel om et bestemt mål kan gi et
-  misvisende bilde av modellens ytelse, eller om det finnes egenskaper
-  ved datasettet som gjør en metode mindre egnede.
+    \item Justert determinasjonskoeffisient ($R^2$) benyttes for å evaluere hvor stor andel av variansen som forklares av modellen.
+    \item Koeffisientene evalueres mot et signifikansnivå på $\alpha = 0.05$.
+    \item Forutsetningene for OLS undersøkes ved grafiske modeller, et residualplott for å sjekke spredningen forholdet mellom varialene, og et Q-Q-plott for å sjekke om residualene er tilnærmet normalfordelte.
+\end{itemize}
+Determinasjonskoeffisient (justert $R^2$) benyttes for å si hvor stor andel av variansen i alder som kan forklares av de valgte prediktorene. \\
+H Koeffisienten til hver prediktor evalueres mot et signifikansnivå på 0.05 for å avgjøre om sammenhengen mellom prediktoren og alder er statistisk signifikant. \\
+To grafiske analyser utføres for å validere at forutsetningene til OLS er oppfylt:
+\begin{itemize}
+    \item Scatterplot: Undersøke om sammenhengen er lineær.
+    \item Q-Q-plott: Undersøke om residualene er normalfordelte.
+\end{itemize}
+
+\subsection{2. Klassifisering}
+
+\paragraph{Begrensninger ved metodene}
+\begin{itemize}
+    \item Fjerning av rader som har manglende data, kan potensielt forårsake skjevheter i datasettet som modellene evalueres etter.
+    \item OLS har ingen øvre eller nedre grense for predikerte verdier. Grunnet dette så kan det forekomme aldersverdier som ikke er mulige, som negativ alder dersom en passasjer har en kombinasjon av flere prediktorer (eks. høyt antall pårørende).
+    \item En betydelig svakhet ligger i hvordan datasettet er strukturert. Variabelen \textit{Parch} slår sammen passasjerer som reiser med foreldre og barn. En passasjer som reiser med foreldre er som regel er et barn, noe som kan forvente å trekke ned alder. På den andre siden kan en person som reiser med barn forventes å ha en høyere alder. Variabelen øker med to motstridende aldersgrupper, noe som gjør at de kan utligne hverandre i modeller. På lignende vis skiller ikke \textit{SibSp} mellom ektefeller og søsken. Manglende skille kan gjøre at variabelen kan representere helt ulike aldersgrupper.
 \end{itemize}
