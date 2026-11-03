@@ -1,29 +1,38 @@
 \section{Metoder (10 poeng)}\label{metoder-10-poeng}
 
-\subsection{1. Multippel lineær regresjon} 
-For å løse den første delen av problemstilling, estimering av manglende aldersdata hos enkelte rader, benytter vi multippel lineær regresjon og estimering med OLS. Ettersom at alder er en kontinuerlig variabel, så er multippel lineær regresjon med OLS en egnet metode. Dette lar oss undersøke den lineære sammenhengen mellom alder og forklaringsvariablene, slik at vi kan predikere alder. % fordi?
+\subsection{Multippel lineær regresjon} 
+For å løse den første delen av problemstilling, estimering av manglende aldersdata hos enkelte rader, benyttes multippel lineær regresjon med Ordinary Least Squares (OLS). Ettersom at alder er en kontinuerlig variabel, så er multippel lineær regresjon med OLS en egnet metode. %Dette lar oss undersøke den lineære sammenhengen mellom alder og forklaringsvariablene, slik at vi kan predikere alder. % fordi?
 
-$$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \dots + \beta_p x_{pi} + e_i$$
+I modellen vår benytter vi alder (\textit{Age}) som responsvariabel, mens passasjerklasse (\textit{Pclass}), familiestørrelse (\textit{FamilySize}) og kjønn \textit{(Sex\_)} brukes som forklaringsvariabler.
 
-\paragraph{Validering} \mbox{} \\
+$$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \dots + \beta_p x_{pi} + \epsilon_i$$
+
+$Y_i$ representerer responsvariabelen, $\beta_0$ er konstantleddet, $\beta_1\dots\beta_p$ er regresjonskoeffisientene, mens $\epsilon_i$ representerer feileddet.
+
+Modellen benyttes for radene hvor alder er kjent. Juster determinasjonskoeffisient ($R^2$) benyttes for å vurdere hvor stor andel av variansen som forklares av modellen. Koeffisientens p verdier evalueres mot et signifikansnivå på $\alpha = 0.05$. Forutsetningene for OLS undersøkes ved bruk av residualplott for å vurdere spredningen i de predikerte verdiene, og et Q-Q-Plott for å vurdere om residualene er tilnærmet normalfordelte.
+
+\subsection{Klassifisering (K-nærmeste-nabo)}
+For den andre delen av problemstilling, benyttes KNN til å klassifisere om en passasjer overlevde. Ettersom at overlevelse er en binær variabel (0 eller 1), er klassifisering en passende metode. Metoden sammenligner en observasjon med de \textit{k} nærmeste observasjonene i treningsdataen, og benytter flertallet blant naboene som den tilhørende predikerte klassen. % Euklidsk avstand?
+
+Vi sammenligner tre modeller:
 \begin{itemize}
-    \item Justert determinasjonskoeffisient ($R^2$) benyttes for å evaluere hvor stor andel av variansen som forklares av modellen.
-    \item Koeffisientene evalueres mot et signifikansnivå på $\alpha = 0.05$.
-    \item Forutsetningene for OLS undersøkes ved grafiske modeller, et residualplott for å sjekke spredningen forholdet mellom varialene, og et Q-Q-plott for å sjekke om residualene er tilnærmet normalfordelte.
-\end{itemize}
-Determinasjonskoeffisient (justert $R^2$) benyttes for å si hvor stor andel av variansen i alder som kan forklares av de valgte prediktorene. \\
-H Koeffisienten til hver prediktor evalueres mot et signifikansnivå på 0.05 for å avgjøre om sammenhengen mellom prediktoren og alder er statistisk signifikant. \\
-To grafiske analyser utføres for å validere at forutsetningene til OLS er oppfylt:
-\begin{itemize}
-    \item Scatterplot: Undersøke om sammenhengen er lineær.
-    \item Q-Q-plott: Undersøke om residualene er normalfordelte.
+    \item \textbf{Modell 1:} \textit{Sex\_} og \textit{Age}
+    \item \textbf{Modell 2:} \textit{Sex\_}, \textit{Age} og \textit{Pclass}
+    \item \textbf{Modell 3:} \textit{Sex\_}, \textit{Age}, \textit{Pclass} og \textit{FamilySize}
 \end{itemize}
 
-\subsection{2. Klassifisering}
+Datasettet deles i tre delsett, hvor 60\% brukes til trening, 20\% til validering og resterende 20\% brukes til testing. For å sikre at andelen overlevende og omkomne fordeles noenlunde likt mellom delsettene, benyttes stratifisering. random\_state=1 sikrer at delingen er reproduserbar. Treningsettet blir brukt for å tilpasse modellene, valideringssettet benyttes for å velge \textit{k} og modell, mens testsettet benyttes etter modellvalget for å vurdere modellen.
+
+Modellene vurderes basert på deres feilrate. For den utvalgte modellen, benyttes en forvekslingsmatrise for å skille mellom true positive, false positive, true false og false false prediksjoner.
+
+\textbf{Datadeling} \\
+Datasettet er blitt delt i tre delsett: 60\% til trening, 20\% til validering og 20\% til test. Stratify har blitt brukt basert på overlevelse for å sikre lik fordeling i alle settene.
+
+
 
 \paragraph{Begrensninger ved metodene}
 \begin{itemize}
     \item Fjerning av rader som har manglende data, kan potensielt forårsake skjevheter i datasettet som modellene evalueres etter.
     \item OLS har ingen øvre eller nedre grense for predikerte verdier. Grunnet dette så kan det forekomme aldersverdier som ikke er mulige, som negativ alder dersom en passasjer har en kombinasjon av flere prediktorer (eks. høyt antall pårørende).
-    \item En betydelig svakhet ligger i hvordan datasettet er strukturert. Variabelen \textit{Parch} slår sammen passasjerer som reiser med foreldre og barn. En passasjer som reiser med foreldre er som regel er et barn, noe som kan forvente å trekke ned alder. På den andre siden kan en person som reiser med barn forventes å ha en høyere alder. Variabelen øker med to motstridende aldersgrupper, noe som gjør at de kan utligne hverandre i modeller. På lignende vis skiller ikke \textit{SibSp} mellom ektefeller og søsken. Manglende skille kan gjøre at variabelen kan representere helt ulike aldersgrupper.
+    \item En betydelig svakhet ligger i hvordan datasettet opprinnelig er strukturert. Variabelen \textit{Parch} slår sammen passasjerer som reiser med foreldre og barn. En passasjer som reiser med foreldre er som regel er et barn, noe som kan forvente å trekke ned alder. På den andre siden kan en person som reiser med barn forventes å ha en høyere alder. Når \textit{Parch} slås sammen med \textit{SibSp} til \textit{FamilySize}, fanger den opp at en passasjer reiser i en gruppe, men evnen til å skille mellom aldersgrupper svekkes.
 \end{itemize}
