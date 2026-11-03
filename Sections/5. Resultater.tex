@@ -9,25 +9,34 @@
         \hline
         \textbf{Variabel} & \textbf{coef} & \textbf{std err} & \textbf{t} & \textbf{$p$-verdi} & \textbf{[0.025} & \textbf{0.975]} \\
         \hline
-        \textbf{Intercept} & 47,604 & 1,478 & 32,199 & 0,000 & 44,702 & 50,508 \\
-        \textbf{Pclass}    & -6,379 & 0,579 & -11,016 & 0,000 & -7,517 & -5,243 \\
-        \textbf{SibSp}     & -3,912 & 0,557 & -7,020 & 0,000 & -5,006 & -2,812 \\
-        \textbf{Parch}     & -0,958 & 0,622 & -1,538 & 0,124 & -2,180 & 0,264 \\
-        \textbf{Sex\_}     & -3,332 & 1,037 & -3,212 & 0,001 & -5,369 & -1,296 \\
+        \textbf{Intercept} & 47,4932 & 1,486 & 31.951 & 0,000 & 44,575 & 50,418 \\
+        \textbf{Pclass}    & -6,4016 & 0,582 & -10,992 & 0,000 & -7,545 & -5,285 \\
+        \textbf{FamilySize}     & -2.554 & 0,332 & -7,688 & 0,000 & -3.206 & -1.902 \\
+        \textbf{Sex\_}     & -2.9129 & 1,034 & -2,818 & 0,005 & 4,943 & -0,883 \\
         \hline
     \end{tabular}
 \end{table}
 
-Konstantleddet til modellen ($\beta_0=47.6$) representerer forventningsverdien for en mann, uten påvirkning fra de andre prediktorene. Variabelen \textit{Pclass} ($\beta_1 = -6.38, p < 0.000$) står statistisk signifikant. For hver lavere klasse en passasjer tilhørte (eks. klasse 1. til klasse 2.), reduserer den forventede alderen i snitt med 6.38 år. \textit{Sex\_} ($\beta_4 = -3.33, p = 0.001$) står også statistisk signifikant og viser at kvinner i snitt er 3.33 år yngre enn menn. \textit{SibSp} ($\beta_2 = -3.91, p < 0.000$) står statistisk signifikant og viser at hvert søsken/ektefelle en passasjer hadde ombord, reduserte den forventede alderen med 3.91 år. \textit{Parch} ($\beta_3 = -0.95, p = 0.124$) er ikke statistisk signifikant med et 5\% signifikansnivå. Dette kan som nevnt i metodekapitellet, skyldes at variabelen inneholder foreldre som trekker alder opp og barn som trekker barn ned. Dette betyr at vi har tilstrekkelig med bevis for at antall foreldre eller barn en passasjer hadde om bord har en reell effekt på alderen. 
+Samlet utgjør modellen en determinasjonskoeffisient på $R^2 = 0.224$, mens den justerte determinasjonskoeffisient er på $R^2 = 0.221$, hvilket som betyr at den forklarer 22.1\% av variansen i alderen til passasjerene. Forklaringsevnen til modellen er relativt lav, men kan skyldes at alder påvirkes av ytterlige faktorer utover det vi har vi har tatt for oss og datasettet har tilgjengelig.  Variablene er likevel sterkt signifikant, noe som viser at de har en reell sammenheng med alder.
 
-Samlet utgjør modellen justert determinasjonskoeffisient på $R^2 = 0.23$, hvilket som betyr at den forklarer 23\% av variansen i alderen til passasjerene. 
+Regresjonslikningen: 
 
+$\textit{Age} = 47.493 - 6.402*\textit{Pclass}-2.554*FamilySize-2.913*\textit{Sex\_}$
+
+\textit{Pclass} \\ For hver lavere klasse en passasjer tilhører (eks. klasse 1. til klasse 2.), reduseres den forventede alderen i snitt med 6.38 år (($\beta_1 = -6.4016, p < 0.000$). 95\% konfidensiellintervallet $[-7.52, -5.24]$ viser høy presisjon i estimatet og en tydelig effekt.
+
+\textit{FamilySize} \\ For hvert ekstra familiemedlem en passasjer hadde ombord (søsken, forelder, barn, ektefelle), reduserer den forventede alderen i snitt med 2.55 år ($\beta_2 - 2.554, p < 0.000$). Dette kan henge sammen med at barn oftere reiste sammen med familie. Den skiller dog ikke mellom en passasjer som reiste med foreldre, og en annen som reiste med egne barn.
+
+\textit{Sex\_} \\ Resultatet viser at kvinner i snitt er 2.91 år yngre enn det menn er ($\beta_3 = -2.913, p = 0.001$). Denne variabelen har det høyeste standardavviket på 1.04 og det bredeste konfidensintervallet $[-5.34, -1.3]$, noe som indikerer at aldersforskjellen mellom menn og kvinner har større usikkerhet og variasjon enn de andre utvalgte variablene.
+
+
+%\textit{SibSp} ($\beta_2 = -3.91, p < 0.000$) står statistisk signifikant og viser at hvert søsken/ektefelle en passasjer hadde ombord, reduserte den forventede alderen med 3.91 år. \textit{Parch} ($\beta_3 = -0.95, p = 0.124$) er ikke statistisk signifikant med et 5\% signifikansnivå. Dette kan som nevnt i metodekapitellet, skyldes at variabelen inneholder foreldre som trekker alder opp og barn som trekker barn ned. Dette betyr at vi har tilstrekkelig med bevis for at antall foreldre eller barn en passasjer hadde om bord har en reell effekt på alderen. 
 
 \noindent
 \begin{minipage}[c]{0.48\textwidth}
     \textbf{Residualplott}
-    
-    Figuren har en antydning til  vifteform. Resultatene er samlet noe tettere rundt nulllinjen i starten, men sprer seg mer desto lenger ut til høyre. Dette er kjent som heteroskedastisitet, modellen har større usikkerhet for eldre passasjerer.
+
+    Residualplottet har en antydning til vifteform. Spredningen i residualene øker med høyere predikert alder. Dette betyr at variansen til feilleddene ikke er konstante. Modellen treffer relativt nøyaktig for yngre passasjerer, men har en betydelig større usikkerhet i estimatene for eldre passasjerer.
 
 \end{minipage}
 \hfill
@@ -57,3 +66,20 @@ Samlet utgjør modellen justert determinasjonskoeffisient på $R^2 = 0.23$, hvil
 \end{minipage}
 
 \subsection{2. Klassifisering}
+Etter oppdeling av datasettet, består treningssettet av 534 rader, valideringsettet av 178 rader og testsettet av 179 observasjoner. Rader som mangler alder har blitt fylt inn ved hjelp av OLS modellen fra forrige resultat. 
+
+\begin{table}[htbp]
+    \centering
+    \caption{Valideringsresultater for KNN modellene.}
+    \label{tab:regresjon_alder}
+    \begin{tabular}{lccc}
+        \hline
+        \textbf{Modell} & \textbf{Beste \textit{k}} & \textbf{Feilrate} \\ \hline
+        \textbf{Modell 1:} \textit{Sex} + \textit{Age} & 29 & 0.2078 \\ 
+        \textbf{Modell 2:} + \textit{Pclass} & 9 & 0.1741 \\ 
+        \textbf{Modell 3:} + \textit{FamilySize} & 17 & 0.1741 \\ \hline % Samme feilrate på denne og modell 2???
+    \end{tabular}
+\end{table}
+
+Baseline feilraten på valideringssettet ligger på 38.2\%. Samtlige modeller oppnår dermed en lavere feilrate. % Hva er baseline for no???
+Av disse modellene, gir modell 2 best resultat med en feilrate på 17.41\% og $k = 9$. Ved å fjerne passasjerens tilhørende klasse, øker feilraten til 20.78\%. Dersom vi legge til familiestørrelsen forblir feilraten det samme. Familiestørrelsen forbedrer altså ikke modellen.
