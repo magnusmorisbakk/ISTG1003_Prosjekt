@@ -66,20 +66,88 @@ $\textit{Age} = 47.493 - 6.402*\textit{Pclass}-2.554*FamilySize-2.913*\textit{Se
 \end{minipage}
 
 \subsection{2. Klassifisering}
-Etter oppdeling av datasettet, består treningssettet av 534 rader, valideringsettet av 178 rader og testsettet av 179 observasjoner. Rader som mangler alder har blitt fylt inn ved hjelp av OLS modellen fra forrige resultat. 
+Etter oppdeling av datasettet, består treningssettet av 534 rader, valideringsettet av 178 rader og testsettet av 179 rader. For modellen med imputering er rader som mangler alder har blitt estimert inn ved hjelp av OLS fra forrige del. For analysen uten imputering fjernes radene hvor alder mangler.
 
 \begin{table}[htbp]
+  \centering
+  \begin{minipage}[c]{0.48\textwidth}
     \centering
-    \caption{Valideringsresultater for KNN modellene.}
-    \label{tab:regresjon_alder}
-    \begin{tabular}{lccc}
-        \hline
-        \textbf{Modell} & \textbf{Beste \textit{k}} & \textbf{Feilrate} \\ \hline
-        \textbf{Modell 1:} \textit{Sex} + \textit{Age} & 29 & 0.2078 \\ 
-        \textbf{Modell 2:} + \textit{Pclass} & 9 & 0.1741 \\ 
-        \textbf{Modell 3:} + \textit{FamilySize} & 17 & 0.1741 \\ \hline % Samme feilrate på denne og modell 2???
+    \caption{Valideringsresultater for KNN-modellene med imputering ved OLS.}
+    \label{tab:knn_validering_1}
+    \begin{tabular}{lcc}
+      \hline
+      \textbf{Modell} & \textbf{Beste \textit{k}} & \textbf{Feilrate} \\ \hline
+      \textbf{Modell 1:} \textit{Sex} + \textit{Age} & 29 & 0.2078 \\ 
+      \textbf{Modell 2:} + \textit{Pclass} & 11 & 0.1629 \\ 
+      \textbf{Modell 3:} + \textit{FamilySize} & 19 & 0.1741 \\ \hline % Samme feilrate på denne og modell 2???
     \end{tabular}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[c]{0.48\textwidth}
+    \centering
+    \caption{Valideringsresultater for KNN-modellene uten imputering.}
+    \label{tab:knn_validering_2}
+    \begin{tabular}{lcc}
+      \hline
+      \textbf{Modell} & \textbf{Beste \textit{k}} & \textbf{Feilrate} \\ \hline
+      \textbf{Modell 1:} \textit{Sex} + \textit{Age} & 29 & 0.2253 \\ 
+      \textbf{Modell 2:} + \textit{Pclass} & 103 & 0.1901 \\ 
+      \textbf{Modell 3:} + \textit{FamilySize} & 95 & 0.1830 \\ \hline
+    \end{tabular}
+  \end{minipage}
 \end{table}
 
-Baseline feilraten på valideringssettet ligger på 38.2\%. Samtlige modeller oppnår dermed en lavere feilrate. % Hva er baseline for no???
-Av disse modellene, gir modell 2 best resultat med en feilrate på 17.41\% og $k = 9$. Ved å fjerne passasjerens tilhørende klasse, øker feilraten til 20.78\%. Dersom vi legge til familiestørrelsen forblir feilraten det samme. Familiestørrelsen forbedrer altså ikke modellen.
+Baseline feilraten ligger på $\approx38\%$ med imputering og $\approx40$ uten imputering. Alle modellene får dermed en feilrate som er lavere enn baseline.
+
+For modellene med imputering, oppnår modell 2 (\textit{Sex} + \textit{Age} + \textit{Pclass}) best resultat med en feilrate på $16.29\%$ og $k = 11$. Ved å fjerne klassen passasjerene tilhører (\textit{Pclass}) øker feilraten til $20.78\%$, og dersom familiestørrelsen (\textit{FamilySize}) inkluderes øker feilraten til $17.41\%$. Familiestørrelsen gir ingen forbedring ovenfor modell 2.
+
+\noindent
+\begin{minipage}[c]{0.48\textwidth}
+    \centering
+    \includegraphics[width=1\linewidth]
+    {Images/valideringssett_knn+ols.png}
+    \captionof{figure}{Validering av modellene med imputering ved OLS}
+    \label{fig:Valideringssett_ols}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.48\textwidth}
+    \centering
+    \includegraphics[width=1\linewidth]
+    {Images/valideringssett_knn.png}
+    \captionof{figure}{Validering av modellene uten imputering}
+    \label{fig:Valideringssett}
+\end{minipage}
+
+For modellene hvor radene som mangler alder er fjernet gir modell 3 det beste resultatet, med en feilrate på $18.3\%$ og $k=95$. I motsetning til det andre resultatet, så gav familiestørrelsen en liten forbedring ovenfor modell 2.
+
+Etter valg av modeller basert på resultatene fra validering evalueres de basert på testsettet. For modellen hvor imputering er brukt har modell 2 blitt benyttet, mens modell 3 har blitt benyttet for datasettet hvor radene som manglet alder er fjernet.
+
+Med imputering fra multippel lineær regresjon:
+
+$Nøyaktighet = \frac{TP+TN}{Observasjoner} = \frac{43+101}{179}\approx0.8045$
+
+Rader hvor alder mangler er fjernet:
+
+$Nøyaktighet = \frac{TP+TN}{Observasjoner} = \frac{42+72}{143}\approx0.7972$
+
+Ved imputering av alder får modellen en nøyaktighet på $80.45\%$. Blant passasjerene som omkom, ble $91.8\%$ klassifisert riktig. 101 av 110 omkomne passasjerer ble korrekt klassifisert, mens de resterende 9 ble feilklassifisert som omkomne. Blant de overlevende ble $62.3\%$ klassifisert riktig, mens de resterende 23 ble feilklassifisert som overlevende.
+
+Ved å kutte ut rader som mangler alder oppnår modellen en nøyaktighet på $79.72\%$. $88.9\%$ av passasjerene som omkom ble klassifisert riktig. Blant de som overlevde ble $67.7\%$ klassifisert riktig.
+
+\noindent
+\begin{minipage}[c]{0.48\textwidth}
+    \centering
+    \includegraphics[width=1\linewidth]
+    {Images/forvekslingsmatrise_knn+ols.png}
+    \captionof{figure}{Validering av modellene med imputering ved OLS}
+    \label{fig:Forvekslingsmatrise med imputering ved OLS}
+
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.48\textwidth}
+    \centering
+    \includegraphics[width=1\linewidth]
+    {Images/forvekslingsmatrise_knn.png}
+    \captionof{figure}{Validering av modellene uten imputering}
+    \label{fig:Forvekslingsmatise uten imputering ved OLS}
+\end{minipage}

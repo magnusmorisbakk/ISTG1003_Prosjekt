@@ -1,5 +1,21 @@
 \section{Diskusjon og konklusjon (5 poeng)}\label{diskusjon-og-konklusjon-5-poeng}
 
-Oppsummer de viktigste funnene fra prosjektet deres. Hva fant du ut, og
-hvilke var de viktigste innsiktene du fikk gjennom analysen? Fokuser på
-de mest relevante resultatene fra modelleringen og analysen.
+\textbf{Diskusjon} \\
+Resultatet til prosjektet viser at multippel lineær regresjon kan benyttes til å anslå manglende alder for passasjerer basert på variablene \textit{Pclass}, \textit{FamilySize} og \textit{Sex}. Modellen forklarer dog kun 22.1\% av variasjonen i alder. Dette kan antyde at variablene har en sammenheng med alderen, men at også andre faktorer spiller inn. Modellen egner seg derfor bedre som et hjelpemiddel, enn for å gi presise estimater.
+
+Resultatet fra KNN viser at bare \textit{Sex} og \textit{Age} alene gir et greit utgangspunkt for å klassifisere overlevelse for en passasjer, men at \textit{Pclass} forbedrer resultatet noe. Med imputering resulterte modell 2 med det beste resultate, med en feilrate på 16.29\%. Ved å kutte ut radene som manglet alder istedenfor imputering ga modell 3 det beste resultatet med en feilrate på 18.3\%. Familiestørrelse kan forbedre klassifiseringen, men avhenger av hvordan manglende aldersverdier håndteres.
+
+Resultatene fra testene viser imputering resulterte med en nøyaktighet på 80.45\%, mens ved å kutte ut radene som manglet alder ga en nøyaktighet på 79.72\%. Forskjellen er ikke av betydelig grad. Grunnet dette, så er det ikke grunnlag nok til å konkludere med at imputering gir en bedre modell for klassifisering. 
+
+Forvekslingsmatrisen viser at modellene er generelt mer nøyaktige på klassifisering av passasjerer som omkom enn passasjerer som overlevde. Selv om modellene gav rundt 80\% nøyaktighet, så er det en stor del av de overlevende passasjerene som blir klassifisert feil.
+
+Observasjonene for manglende alder viser seg også å være skjeifordelt i forhold til overlevelse. Blant de 177 passasjerene som manglet alder, omkom 125 av disse. Dette fremstår som en betydelig andel og kan ha påvirket resultatene, både ved estimering av alder og ved sammenligning av modellene. 
+
+\textbf{Konklusjon} \\
+Prosjektet viser multippel lineær regresjon er mulig å bruke for å estimere manglende alder, men en lav determinasjonskoeffisient resulterer i at forklaringsevnen er begrenset. KNN viser at \textit{Sex}, \textit{Age} og \textit{Pclass} gir et grunnlag for å klassifisere passasjerers overlevelse. Blant modellene, oppnådde den beste en feilrate på 16.29\% på valideringssettet med imputering. Modellene hvor rader som manglet alder var kuttet ut nådde en feilrate på 18.3\%.
+
+Testsettene for imputering av avkutting ga en nøyaktighet på rundt 80\%. Fremgangsmåten kan gi relativt gode resultater for klassifisering, men forskjellen er liten.
+
+Forklaringsvariabler og håndtering av manglende variabler har tydelige påvirkninger på resultater. Resultatet viser også at nøyaktigheten for en modell alene, sier ikke hvor godt en modell klassifiserer for alle grupper. Den samlede nøyaktigheten er god, men mye bedre til å klassifisere passasjerer som omkom enn passasjerer som overlevde.
+
+
