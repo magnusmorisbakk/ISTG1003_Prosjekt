@@ -1,5 +1,19 @@
 \section{Beskrivende dataanalyse (5 poeng)}\label{beskrivende-dataanalyse-5-poeng}
-I det opprinnelige datasettet på 891 mangler 177 passasjerer (19.86\%) alder. Ved å avgrense den beskrivende dataanalysen til de 714 observasjonene som ikke mangler alder, unngår vi feilkilder i visualiseringe før modellering.
+\subsection{Datasettet}
+Datasettet består av totalt 891 observasjoner og inneholder flere variabler for hver rad, blant annet \textit{Survived}, \textit{Pclass}, \textit{Sex}, \textit{Age}, \textit{SibSp}, \textit{Parch} og \textit{Fare}. Variabelen \textit{Survived} angir om den aktuelle passasjeren omkom eller ikke. 0 Betyr at passasjeren omkom og 1 betyr at passasjeren overlevde. \textit{Pclass} hvilken klasse passasjeren tilhørte, 1. klasse, 2. klasse eller 3. klasse. 
+\textit{SibSp} angir hvor mange søsken og ektefeller en passasjer hadde ombord, mens \textit{Parch} angir antall foreldre og barn om bord. Disse variablene har blitt slått sammen til en ny variabel:
+
+$FamilySize = SibSp + Parch$
+
+Variablen angir antall registrerte familiemedlemmer en passasjer har ombord.
+
+\subsection{Forbehandling og manglende verdier}
+
+I det opprinnelige datasettet på 891 mangler 177 passasjerer (19.86\%) alder. Den beskrivende dataanalysen begrenses derfor til de 714 observasjonene som ikke mangler alder, da dette gjør forklaringen og figurene enklere å beregne og forklare. Dette kan medføre at resultatene ikke nødvendigvis er representative for alle passasjerene i det opprinnelige datasettet.
+
+Verdiene til kjønn er opprinnelig i datasettet Male eller female. Disse er blitt konvertert til numeriske verdier for analysen, hvor menn får verdien 0 og kvinner får verdien 1. Den nye numeriske variabelen heter \textit{Sex\_}. I KNN analysen blir manglende alder estimert ved modellen fra multippel lineær regresjon.
+
+\subsection{Dataanalyse}
 
 Tabellen under oppsummerer gjenomsnitt, median, standardavvik, varians og spenn for variablene i utvalget.
 
@@ -17,34 +31,28 @@ Tabellen under oppsummerer gjenomsnitt, median, standardavvik, varians og spenn 
         \textbf{Pclass}     & 2,24  & 2,00  & 0,84  & 0,70    & 1,00 & 3,00   \\
         \textbf{Age}        & 29,70 & 28,00 & 14,53 & 211,02  & 0,42 & 80,00  \\
         \textbf{Fare}       & 34,69 & 15,74 & 52,92 & 2800,41 & 0,00 & 512,33 \\
-        \textbf{SibSp}      & 0,51  & 0,00  & 0,93  & 2,20    & 0,00 & 7,00   \\
-        \textbf{Parch}      & 0,43  & 0,00  & 0,85  & 0,73    & 0,00 & 6,00 \\
+        \textbf{FamilySize}      & 0.94  & 0,00  & 1.48  & 2,20    & 0,00 & 7,00   \\
         \hline
     \end{tabular}
 \end{table}
 
-I tillegg til å kutte ut rader som mangler alder (\textit{Age}), så er følgende data wrangling gjort:
-
-\begin{itemize}
-    \item Variabelen for kjønn (\textit{Sex}) er konvertert til numeriske verdier hvor menn har fått verdien 0 og kvinner har fått verdien 1.
-\end{itemize}
+Gjennomsnittsalderen ligger på 29.7 år, mens medianen er 28 år. Dette kan antyde at det er en noe positiv skjevhet i aldersfordelingen. Gjenomsnittet til \textit{Fare} ligger på 34.69, mens median er 15.74. Dette antyder at noen bilettpriser trekker gjenomsnittet opp, da maksprisen ligger på 512.33. Medianen til \textit{FamilySize} ligger på 0, hvilket som betyr at over halvparten av passasjerene ikke hadde noen familiemedlemmer ombord.
 
 
 \noindent
 \begin{minipage}[c]{0.48\textwidth}
     \textbf{Korrelasjonsmatrise}
 
-    \begin{itemize}
-        \item Overlevelse har sterkest korrelasjon med kjønn (\textit{Sex\_}) på 0.54 og en negativ korrelasjon med passasjerklasse (\textit{Pclass}) på -0.36. Billettpris (\textit{Fare}) har en positivt korrelasjon med overlevelse på 0.27.
-        \item Det er en tydelig negativ korrelasjon mellom \textit{Pclass} og \textit{Fare} på -0.55, og mellom \textit{Pclass} og \textit{Age} på -0.37. \textit{Age} har også en negativ korrelasjon med \textit{SibSp} på -0.31 og \textit{Parch} på -0.19, noe som bekrefter at familiestørrelsen og klassen til passasjerene har en forklaringsevne ovenfor alder.
-    \end{itemize}
+    Matrisen viser at overlevese har sterkest positivt korrelasjon med (\textit{Sex\_}) på 0.54.. Passasjerklasse (\textit{Pclass}) har en negativ korrelasjon på -0.36, og billettpris (\textit{Fare}) har en positiv korrelasjon på 0.27.
+
+    Det observeres også i matrisen at det er en tydelig negativ korrelasjon mellom \textit{Pclass} og \textit{Fare} på -0.57, og mellom \textit{Pclass} og \textit{Age} på -0.37. \textit{Age} har også en negativ korrelasjon med \textit{FamilySize} på -0.39, noe som indikerer at eldre passasjerer i snitt reiste med færre familiemedlemmer.
     
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.48\textwidth}
     \centering
     \includegraphics[width=0.85\linewidth]
-    {Images/Korrelasjonsmatrise_alderkuttetut.png}
+    {Images/Korrelasjonsmatrise.png}
     \captionof{figure}{Korrelasjon mellom variabler}
     \label{fig:korrelasjonsmatrise_alder}
 \end{minipage}
@@ -55,14 +63,14 @@ I tillegg til å kutte ut rader som mangler alder (\textit{Age}), så er følgen
 \begin{minipage}[c]{0.48\textwidth}
     \textbf{Histogram – aldersfordeling}
 
-    Når vi kun ser på observasjonene hvor alder er tilstede, ser aldersfordeling svært jevn ut. Det er en noe positiv skjevhet og en større konsentrasjon av unge voksne i alderspennet 20-30 år.
+    Histogrammet for al viser at aldersfordeling ser svært jevn ut. Det er en noe positiv skjevhet og en større konsentrasjon av unge voksne i alderspennet 20-30 år.
     
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.48\textwidth}
     \centering
     \includegraphics[width=0.85\linewidth]
-    {Images/histogram_aldersfordeling_alderkuttetut.png}
+    {Images/histogram_aldersfordeling.png}
     \captionof{figure}{Aldersfordeling}
     \label{fig:histogram_aldersfordeling}
 \end{minipage}
@@ -74,16 +82,14 @@ I tillegg til å kutte ut rader som mangler alder (\textit{Age}), så er følgen
     \textbf{Boksplott – aldersfordeling for overlevende
     og omkomne}
 
-    \begin{itemize}
-        \item De overlevende har en noe lavere kvartilbredde på ca 19 år enn de omkomne på ca 21 år.
-        \item Blant de omkomne foreligger det flere uteliggere i høyere aldersgrupper. 
-    \end{itemize}
+    Plottet sammeligner alderen til de overlevende og omkomne, og viser at de overlevende har en noe lavere kvartilbredde på ca 19 år for overlevende enn de omkomne på ca 21 år. Blant de omkomne foreligger det flere uteliggere i høyere aldersgrupper.
+
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.48\textwidth}
     \centering
     \includegraphics[width=0.85\linewidth]
-{Images/boksplott_aldersfordeling_overlevende_og_dode_alderkuttetut.png}
+{Images/boksplott_aldersfordeling_overlevende_og_dode.png}
     \captionof{figure}{Boksplott for alder fordelt på overlevelse}
     \label{fig:boksplott_aldersfordeling_overlevende_og_døde}
 \end{minipage}
@@ -94,17 +100,14 @@ I tillegg til å kutte ut rader som mangler alder (\textit{Age}), så er følgen
 \begin{minipage}[c]{0.48\textwidth}
     \textbf{Stolpediagram – overlevelse fordelt på kjønn}
 
-    \begin{itemize}
-        \item Blant mennene (\textit{male}) omkom 360 av 453 registrerte. Overlevelsesrate på ~20.5\%.
-        \item Blant kvinnene (\textit{female}) omkom 64 av 261 registererte. Overlevelsesrate på ~75.5\%.
-    \end{itemize}
+    Digrammet viser overlevelse fordelt på kjønn, og at det er en tydelig forskjell mellom menn og kvinner. Blant mennene omkom 360 av 453, noe som gir en overlevelsesrate på ~20.5\%. Blant kvinnene omkom 64 av 261, noe som gir en overlevesesrate på ~75.5\%. 
     
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.48\textwidth}
     \centering
     \includegraphics[width=0.85\linewidth]
-    {Images/ovelevende_menn_vs_kvinner_alderkuttetut.png}
+    {Images/overlevende_menn_vs_kvinner.png}
     \captionof{figure}{Overlevelsesfordeling basert på kjønn}
     \label{fig:overlevende_menn_vs_kvinner}
 \end{minipage}
