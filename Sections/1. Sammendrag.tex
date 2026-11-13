@@ -1,36 +1,14 @@
 \section{Sammendrag/Abstract (max 500 ord) (10 poeng)}\label{sammendragabstract-max-500-ord-10-poeng}
 
-Formålet med sammendraget er å gi en kort og presis oppsummering av
-prosjektet deres. Det er en selvstendig tekst som plasseres før selve
-rapporten begynner (men skriv den til slutt). Sammendraget bør inneholde
-følgende deler:
+Målet til prosjektet er å undersøke hvordan sosiodemografiske faktorer kan brukes for å estimere manglende alder og klassifisere overlevelse rate hos passasjerene på Titanic. Utførelsen av prosjektet er todelt. I første delen undersøkes det hvor godt alder kan estimeres basert på kjønn, familiestørrelse og passasjerklasse. I den andre delen undersøkes det om det er mulig å klassifisere overlevelse med og uten imputering basert på de utvalgte variablene.
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Start med å tydelig beskrive formålet med prosjektet. Hvilket problem
-  forsøker dere å løse? Hvilket spørsmål ønsker dere å besvare? Beskriv
-  forskningsspørsmålet/hypotesen. Det er viktig å være kortfattet og
-  konkret.
-\item
-  Beskriv dataene dere brukte. Inkluder lenken til datasettet her.
-  Hvilket datasett benyttet dere? Deklarer størrelse på datasettet
-  (antall observasjoner, antall variabler), typer variabler og
-  responsvariabel.
-\item
-  Beskriv metodene: Hvordan analyserte dere dataene? Hvilke verktøy,
-  teknikker eller metoder brukte dere? Regresjon, klassifisering,
-  klyngeanalyse? Vær spesifisk, men unngå for mange detaljer.
-\item
-  Oppsummer de viktigste funnene. I hoveddelen av sammendraget skal dere
-  oppsummere de viktigste resultatene fra prosjektet og kort tolke dem
-  (altså, hva betyr resultatene?). Fremhev de mest betydningsfulle
-  funnene, og gi nok informasjon til at leseren får et inntrykk av hva
-  dere har oppdaget.
-\item
-  (Valgfritt) Fremhev betydningen av resultatene. Forklar hvorfor
-  og/eller hvordan funnene dine er viktige. Fremhev eventuelle nye eller
-  uventede funn, og forklar hvordan de bidrar til økt forståelse av
-  temaet.
-\end{enumerate}
+Analysen baserer seg på datasettet \parencite[]{titanic_dataset}. Datasettet består av 891 rader med informasjon om passasjerene. De mest aktuelle variablene for prosjektet er alder (\textit{Age}), kjønn (\textit{Sex}), passasjerklasse (\textit{Pclass}), overlevelse (\textit{Survived}) samt antall Søsken/ektefeller \textit{(SibSp)} og antall barn/foreldre \textit{(Parch)} de sistnevnte slår vi sammen til familiestørrelse (\textit{FamilySize)}. Blant de 891 radene, mangler 177 alder.
+
+For å estimere de manglende alderene har multippel lineær regresjon med Ordinay Least Squares (OLS) blitt benyttet. Overlevelse blir deretter klassifisert ved k-nærmeste-nabo (KNN), hvor tre ulike modeller sammenlignes og evalueres. Klassifiseringen blir gjort både med og uten estimering av manglende aldere. Vi tester begge modellene (med og uten aldrer) og disse blir evaluert gjennom validering og testsett, feilrate, nøyaktighet og forvekslingsmatrise.
+
+Regresjonsmodellen utgjør en forklaringsevne på 22.4\% av variasjonen i alder, noe som indikerer at forklaringsevnen er noe begrenset. De utvalgte variablene er statistisk signifikante, men modellen er ikke i stand til å estimere en alder høyere enn $\approx 41$. Modellen vil i stor grad underestimere alder, spesielt for eldre passasjerer.
+
+KNN oppnår best resultat med variablene for kjønn, alder, passasjerklasse når alder estimeres. På valideringssettet endte denne modellen med en feilrate på 16.29\%. Dersom radene som mangler alder fjernes, istedenfor å estimere, får den beste modellen en feilrate på 18.3\%. Testsettet ender opp med en nøyaktighet på 80.45\% ved imputering og 79.72\% ved å kutte ut rader med manglende alder.
+
+Resultatet til prosjektet viser at variablene kjønn, alder og passasjerklasse gir et greit grunnlag for å kunne klassifisere overlevelse for passasjerene. Samtidig viser prosjektet også resultatet at valg av forklaringsvariabler og håndtering av manglende verdier påvirker resultatene. Forskjellen mellom klassifisering med og uten imputering er svært liten, og er ikke grunnlag nok til å konkludere med at imputering av alder gir ett bedre resultat. Forvekslingsmatrisen viser at modellene uavhengig av metoden for håndtering av manglende variabler, klassifiserer omkomne passasjerer mer nøyaktig enn overlevende. Dette viser at en samlet nøyaktighet alene ikke nødvdigvis forklarer egenskapene til modellene godt. 
+
