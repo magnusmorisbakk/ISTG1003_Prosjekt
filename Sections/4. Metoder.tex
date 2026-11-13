@@ -1,51 +1,51 @@
 \section{Metoder (10 poeng)}\label{metoder-10-poeng}
 
 \subsection{Multippel lineær regresjon} 
-For å løse den første delen av problemstilling, estimering av manglende aldersdata hos enkelte rader, benyttes multippel lineær regresjon med Ordinary Least Squares (OLS). Ettersom at alder er en kontinuerlig variabel, så er multippel lineær regresjon med OLS en egnet metode. %Dette lar oss undersøke den lineære sammenhengen mellom alder og forklaringsvariablene, slik at vi kan predikere alder. % fordi?
+For å løse den første delen av problemstillingen, estimering av manglende aldersdata hos enkelte rader, benyttes multippel lineær regresjon med Ordinary Least Squares (OLS). Ettersom at alder er en kontinuerlig variabel, så er multippel lineær regresjon med OLS en egnet metode. %Dette lar oss undersøke den lineære sammenhengen mellom alder og forklaringsvariablene, slik at vi kan predikere alder. % fordi?
 
-I modellen vår benytter vi alder (\textit{Age}) som responsvariabel, mens passasjerklasse (\textit{Pclass}), familiestørrelse (\textit{FamilySize}) og kjønn \textit{(Sex\_)} brukes som forklaringsvariabler.
+I modellen vår benytter vi alder (\textit{Age}) som responsvariabel, mens passasjerklasse (\textit{Pclass}), familiestørrelse (\textit{FamilySize}) og kjønn \textit{(Sex)} brukes som forklaringsvariabler.
 
 $$Y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \dots + \beta_p x_{pi} + \epsilon_i$$
 
 $Y_i$ representerer responsvariabelen, $\beta_0$ er konstantleddet, $\beta_1\dots\beta_p$ er regresjonskoeffisientene, mens $\epsilon_i$ representerer feileddet.
 
-Modellen benyttes for radene hvor alder er kjent. Juster determinasjonskoeffisient ($R^2$) benyttes for å vurdere hvor stor andel av variansen som forklares av modellen. Koeffisientens p verdier evalueres mot et signifikansnivå på $\alpha = 0.05$. Forutsetningene for OLS undersøkes ved bruk av residualplott for å vurdere spredningen i de predikerte verdiene, og et Q-Q-Plott for å vurdere om residualene er tilnærmet normalfordelte.
+Modellen benyttes for radene hvor alder er kjent. Determinasjonskoeffisient ($R^2$) benyttes for å vurdere hvor stor andel av variansen som forklares av modellen. Koeffisientens p-verdier evalueres mot et signifikansnivå på $\alpha = 0.05$. Forutsetningene for OLS undersøkes ved bruk av residualplott for å vurdere spredningen i de predikerte verdiene, og et Q-Q-Plott for å vurdere om residualene er tilnærmet normalfordelte.
 
 \subsection{Klassifisering (K-nærmeste-nabo)}
 For den andre delen av problemstilling, benyttes KNN til å klassifisere om en passasjer overlevde. Ettersom at overlevelse er en binær variabel (0 eller 1), er klassifisering en passende metode. Metoden sammenligner en observasjon med de \textit{k} nærmeste observasjonene i treningsdataen, og benytter flertallet blant naboene som den tilhørende predikerte klassen. % Euklidsk avstand?
 
 Vi sammenligner tre modeller:
 \begin{itemize}
-    \item \textbf{Modell 1:} \textit{Sex\_} og \textit{Age}
-    \item \textbf{Modell 2:} \textit{Sex\_}, \textit{Age} og \textit{Pclass}
-    \item \textbf{Modell 3:} \textit{Sex\_}, \textit{Age}, \textit{Pclass} og \textit{FamilySize}
+    \item \textbf{Modell 1:} \textit{Sex} og \textit{Age}
+    \item \textbf{Modell 2:} \textit{Sex}, \textit{Age} og \textit{Pclass}
+    \item \textbf{Modell 3:} \textit{Sex}, \textit{Age}, \textit{Pclass} og \textit{FamilySize}
 \end{itemize}
 
-For å undersøke hvor stor forskjell manglende alder i enkelte rader gjøres analysen på to forskjellige måter. Ved den første fjernes radene hvor alder manger, mens ved den andre erstattes manglende alder ved hjelp av multippel lineær regresjon fra forrige del av oppgaven. Resultatet fra metodene sammenlignes for å undersøke hvordan manglende aldersverdi kan ha effekt på klassifiseringen.
-
-Datasettet deles i tre delsett, hvor 60\% brukes til trening, 20\% til validering og resterende 20\% brukes til testing. For å sikre at andelen overlevende og omkomne fordeles noenlunde likt mellom delsettene, benyttes stratifisering. random\_state=1 sikrer at delingen er reproduserbar. Treningsettet blir brukt for å tilpasse modellene, valideringssettet benyttes for å velge \textit{k} og modell, mens testsettet benyttes etter modellvalget for å vurdere modellen.
-
-Modellene vurderes basert på deres feilrate. For den utvalgte modellen, benyttes en forvekslingsmatrise for å skille mellom true positive, false positive, true false og false false klassifiseringer.
+For å undersøke hvor stor forskjell manglende alder i enkelte rader kan utgjøre, utføres analysen på to forskjellige måter. Ved den første, fjernes radene hvor alder manger, mens ved den andre erstattes manglende alder ved hjelp av multippel lineær regresjon fra forrige del av oppgaven. Resultatet fra metodene sammenlignes for å undersøke hvordan manglende aldersverdi kan ha effekt på klassifiseringen.
 
 \textbf{Datadeling} \\
-Datasettet er blitt delt i tre delsett: 60\% til trening, 20\% til validering og 20\% til test. Stratify har blitt brukt basert på overlevelse for å sikre lik fordeling i alle settene.
+Datasettet deles i tre delsett, hvor 60\% brukes til trening, 20\% til validering og resterende 20\% brukes til testing. For å sikre at andelen overlevende og omkomne fordeles noenlunde likt mellom delsettene, benyttes stratifisering. random\_state=1 sikrer at delingen er reproduserbar. Treningsettet blir brukt for å tilpasse modellene, valideringssettet benyttes for å velge beste \textit{k} og modell, mens testsettet benyttes etter modellvalget for å vurdere og sammenligne modellene.
 
 \textbf{Evaluering og valg av modell} \\
-De utvalgte modellene evalueres basert på feilrate. Feilraten bereges ved å dele antall feilklassifiseringer på det totale antall observasjoner.
+Modellene vurderes basert på deres feilrate. Feilraten bereges ved å dele antall feilklassifiseringer på det totale antall observasjoner.
 
-$Feilrate = \frac{Antall feilklassifiseringer}{Antall Observasjoner}$
+$$Feilrate = \frac{FP + FN}{TP + TN + FP + FN}$$
 
-Det undersøkes for flere verdier av k, i rommet 1-197 med intervall på 2, noe som gir et utvalg av oddetallsverdier for antall naboer. For hver modell velges k verdien som gir lavest feilrate. Som grunnlag for å sammeligne beregnes baseline feilrate. Baseline feilrate representerer raten til en modell som alltid klassifiserer den vanligste klassen i datasettet. Etter at modell og k veri er valgt, evalueres modellen videre basert på testsettet. Forvekslingsmatrise benyttes for å vurdere resultatet. Matrisen viser antall true positive, true false, false positive og false false klassifiseringer.
+Det undersøkes for flere verdier av k, i rommet 1-197 med intervall på 2, noe som gir et utvalg av oddetallsverdier for antall naboer, slik at avgjørelsen blir enstemmig. For hver modell velges k verdien som gir lavest feilrate. 
+
+
+Som grunnlag for å sammeligne beregnes baseline feilrate. Baseline feilrate representerer raten til en modell som alltid klassifiserer den vanligste klassen i datasettet. Etter at modell og k verdi er valgt, evalueres modellen videre basert på testsettet. Forvekslingsmatrise benyttes for å vurdere resultatet. Matrisen viser antall true positive, true false, false positive og false false klassifiseringer.
 
 Nøyaktigheten beregnes på følgende vis:
 
-$Nøyaktighet = \frac{TP+TN}{TP+TN+FP+FN}$
+$$Nøyaktighet = \frac{TP+TN}{TP+TN+FP+FN}$$
 
 
 \paragraph{Begrensninger ved metodene}
 \begin{itemize}
     \item Fjerning av rader som har manglende data, kan potensielt forårsake skjevheter i datasettet som modellene evalueres etter.
-    \item OLS har ingen øvre eller nedre grense for predikerte verdier. Grunnet dette så kan det forekomme aldersverdier som ikke er mulige, som negativ alder dersom en passasjer har en kombinasjon av flere prediktorer (eks. høyt antall pårørende).
-    \item En betydelig svakhet ligger i hvordan datasettet opprinnelig er strukturert. Variabelen \textit{Parch} slår sammen passasjerer som reiser med foreldre og barn. En passasjer som reiser med foreldre er som regel er et barn, noe som kan forvente å trekke ned alder. På den andre siden kan en person som reiser med barn forventes å ha en høyere alder. Når \textit{Parch} slås sammen med \textit{SibSp} til \textit{FamilySize}, fanger den opp at en passasjer reiser i en gruppe, men evnen til å skille mellom aldersgrupper svekkes.
-    \item En ytterlig svakhet ved datasettet er at manglende alder er skjevt fordelt i forhold til overlevelse. Blant de 177 passasjerene som manglet alder, omkom 125 av disse. Imputering av alder ved OLS kan dermed gi mindre presise estimer for alder hos disse.
+    \item OLS har ingen øvre eller nedre grense for predikerte verdier. Grunnet dette så kan det forekomme aldersverdier som ikke er mulige, som negativ alder dersom en passasjer har en kombinasjon av flere prediktorer (eks. høyt antall familiemedlemmer).
+    \item En svakhet ligger i hvordan datasettet opprinnelig er strukturert. Variabelen \textit{Parch} slår sammen passasjerer som reiser med foreldre og barn. En passasjer som reiser med foreldre er som regel er et barn, noe som kan forvente å trekke ned alder. På den andre siden kan en person som reiser med barn forventes å ha en høyere alder. Når \textit{Parch} slås sammen med \textit{SibSp} til \textit{FamilySize}, fanger den opp at en passasjer reiser i en gruppe, men evnen til å skille mellom aldersgrupper svekkes.
+    \item En ytterlig svakhet ved datasettet er at manglende alder er skjevt fordelt i forhold til overlevelse. Blant de 177 passasjerene som manglet alder, omkom 125 av disse. Imputering av alder ved OLS kan dermed gi mindre presise estimater for alder hos disse.
+    \item Korrelasjonsmatrisen fra forrige kapittel viser at ingen de utvalgte forklaringsvariablene som benyttes for estimering av alder er positive. Dette vil sannsynlig medføre begrensninger i forbindelse med estimering av alder for eldre passasjerer.
 \end{itemize}
